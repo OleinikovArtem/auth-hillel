@@ -16,7 +16,7 @@ function App() {
           <Route exact path='/products' component={Products} />
           <Route exact path='/edit_product' component={EditProduct} />
           <Route exact path='/add_product' component={AddProduct} />
-          <Redirect to='/auth/registration'/>
+          <Redirect to='/auth/login'/>
         </Switch>
     </main>
   );
