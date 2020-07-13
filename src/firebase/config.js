@@ -6,4 +6,4 @@ export const firebaseConfig = {
   storageBucket: "hillel-auth.appspot.com",
   messagingSenderId: "199603899316",
   appId: "1:199603899316:web:54d370ef07a04df8d640e1"
-};
+}

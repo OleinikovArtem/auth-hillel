@@ -1,25 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import Auth from './pages/Auth'
+import { Products } from './pages/Products'
+import { EditProduct } from './pages/EditProduct'
+import { AddProduct } from './pages/AddProduct'
+import Navbar from './components/Navbar'
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className="App">
+      <Navbar />
+        <Switch>
+          <Route exact path='/auth/:type' component={Auth} />
+          <Route exact path='/products' component={Products} />
+          <Route exact path='/edit_product' component={EditProduct} />
+          <Route exact path='/add_product' component={AddProduct} />
+          <Redirect to='/auth/registration'/>
+        </Switch>
+    </main>
   );
 }
 
