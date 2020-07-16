@@ -1,12 +1,7 @@
 import React from 'react'
 import { NavLink, withRouter } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
-import { AppBar, Toolbar, Typography, Button } from '@material-ui/core'
-// import Toolbar from '@material-ui/core/Toolbar'
-// import Typography from '@material-ui/core/Typography'
-// import Button from '@material-ui/core/Button'
-// import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
+import { AppBar, Toolbar, Button } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,7 +38,7 @@ const Navbar = ({ locatin, history }) => {
           <div className={classes.linkBox}>
             <NavLink className={classes.link} to='/products'>Products</NavLink>
             <NavLink className={classes.link} to='/add_product'>Add Product</NavLink>
-            <NavLink className={classes.link} to='/edit_product'>Edit Product</NavLink>
+            {/* <NavLink className={classes.link} to='/edit_product'>Edit Product</NavLink> */}
           </div>
           <Button color="inherit" onClick={loginPage}>Login</Button>
         </Toolbar>

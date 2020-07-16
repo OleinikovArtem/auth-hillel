@@ -1,7 +1,39 @@
-import React from 'react'
-import { Container, Typography, TextField, Button, ButtonBase } from '@material-ui/core'
+import React, { useState, useEffect } from 'react'
+import { Container, Typography, TextField, Button } from '@material-ui/core'
+import { db, storage } from '../firebase/api'
+import FileInput from '../components/FileInput'
+
+// const storageRef = storage.ref()
+
 
 export const AddProduct = () => {
+  const [values, setValues] = useState({
+    titleProduct: '',
+    descriptionProduct: '',
+    priceProduct: '',
+    saleProduct: '',
+    timeSaleProduct: '',
+  })
+  const [file, setFile] = useState('')
+
+
+  const changeValues = ({ target: { name, value } }) => {
+    const updateValues = {
+      ...values,
+      [name]: value
+    }
+    setValues(updateValues)
+  }
+
+  const handleSubmit = () => {
+    db.collection("products").add({ ...values })
+      .then(function () {
+        console.log("Document successfully written!")
+      })
+      .catch(function (error) {
+        console.error("Error writing document: ", error)
+      })
+  }
   return (
     <Container component="main" maxWidth="xs">
 
@@ -12,60 +44,66 @@ export const AddProduct = () => {
           margin="normal"
           required
           fullWidth
-          id="title_product"
+          id="titleProduct"
           label="Title Product"
-          name="title_product"
+          name="titleProduct"
           autoFocus
+          value={values.titleProduct}
+          onChange={changeValues}
         />
-        <label htmlFor="image-upload"
-          className="d-block" >
-          <div style={{padding: '10px 0'}}>Image your product</div>
-        <input 
-          required
-          accept="image/*"
-          className="d-none"
-          id="image-upload"
-          type="file"
-        />
-        </label>
+        <FileInput onChange={setFile} value={file} />
         <TextField
           variant="outlined"
           margin="normal"
+          multiline
+          rows={4}
           required
           fullWidth
-          id="description_product"
+          id="descriptionProduct"
           label="Description Product"
-          name="description_product"
+          name="descriptionProduct"
+          value={values.descriptionProduct}
+          onChange={changeValues}
+
         />
         <TextField
           variant="outlined"
           margin="normal"
           required
           fullWidth
-          id="price_product"
+          id="priceProduct"
           label="Price Product"
-          name="price_product"
+          name="priceProduct"
+          values={values.priceProduct}
+          onChange={changeValues}
+
         />
         <TextField
           variant="outlined"
           margin="normal"
           required
-          id="sale_product"
+          id="saleProduct"
           label="Sale Product"
-          name="sale_product"
+          name="saleProduct"
+          value={values.saleProduct}
+          onChange={changeValues}
+
         />
         <TextField
           variant="outlined"
           margin="normal"
           required
-          id="time_sale_product"
+          id="timeSaleProduct"
           label="Time sale Product"
-          name="time_sale_product"
+          name="timeSaleProduct"
+          value={values.timeSaleProduct}
+          onChange={changeValues}
+
         />
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={handleSubmit}>
           Add product
         </Button>
-        <Button variant="contained" color="secondary" style={{marginLeft: 10}}>
+        <Button variant="contained" color="secondary" style={{ marginLeft: 10 }}>
           Reset
         </Button>
       </form>

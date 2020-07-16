@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Card from '@material-ui/core/Card'
@@ -7,18 +8,6 @@ import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
-
-
-const tileData = [
-  { title: 'test', author: 'Author', id: '1', img: 'url', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Id commodi sit iste voluptatem dolorem qui culpa similique voluptates dolorum consectetur! Iusto, sit tenetur! Quaerat culpa dolorum perferendis iure dicta nobis.' },
-  { title: 'test', author: 'Author', id: '2', img: 'url', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Id commodi sit iste voluptatem dolorem qui culpa similique voluptates dolorum consectetur! Iusto, sit tenetur! Quaerat culpa dolorum perferendis iure dicta nobis.' },
-  { title: 'test', author: 'Author', id: '3', img: 'url', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Id commodi sit iste voluptatem dolorem qui culpa similique voluptates dolorum consectetur! Iusto, sit tenetur! Quaerat culpa dolorum perferendis iure dicta nobis.' },
-  { title: 'test', author: 'Author', id: '4', img: 'url', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Id commodi sit iste voluptatem dolorem qui culpa similique voluptates dolorum consectetur! Iusto, sit tenetur! Quaerat culpa dolorum perferendis iure dicta nobis.' },
-  { title: 'test', author: 'Author', id: '5', img: 'url', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Id commodi sit iste voluptatem dolorem qui culpa similique voluptates dolorum consectetur! Iusto, sit tenetur! Quaerat culpa dolorum perferendis iure dicta nobis.' },
-  { title: 'test', author: 'Author', id: '6', img: 'url', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Id commodi sit iste voluptatem dolorem qui culpa similique voluptates dolorum consectetur! Iusto, sit tenetur! Quaerat culpa dolorum perferendis iure dicta nobis.' },
-  { title: 'test', author: 'Author', id: '7', img: 'url', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Id commodi sit iste voluptatem dolorem qui culpa similique voluptates dolorum consectetur! Iusto, sit tenetur! Quaerat culpa dolorum perferendis iure dicta nobis.' },
-  { title: 'test', author: 'Author', id: '8', img: 'url', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Id commodi sit iste voluptatem dolorem qui culpa similique voluptates dolorum consectetur! Iusto, sit tenetur! Quaerat culpa dolorum perferendis iure dicta nobis.' },
-]
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -41,8 +30,13 @@ const useStyles = makeStyles((theme) => ({
   
 }))
 
-export const Product = ({ title, description, author }) => {
+export const Product =  ({id, title, description, author}) => {
   const classes = useStyles()
+  const history = useHistory()
+
+  const goEdit = () => {
+    history.push(`/edit_product/${id}`)
+  }
 
   return (
     <Grid item lg={3} xs={12} sm={6}>
@@ -68,7 +62,7 @@ export const Product = ({ title, description, author }) => {
           <Button size="small" color="primary">
             Delete
           </Button>
-          <Button size="small" color="primary">
+          <Button size="small" color="primary" onClick={goEdit}>
             Edit
           </Button>
         </CardActions>
@@ -77,13 +71,13 @@ export const Product = ({ title, description, author }) => {
   )
 }
 
-export const Products = () => {
+export const Products = ({ products }) => {
   const classes = useStyles()
 
   return (
     <div className={classes.container}>
       <Grid container spacing={3}>
-        {tileData.map((item) => <Product key={item.id} {...item} />)}
+        {products?.map((item) => <Product key={item.id} {...item} />)}
       </Grid>
     </div>
   )

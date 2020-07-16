@@ -2,3 +2,41 @@ body {
   font-family: 'Roboto', Arial, Helvetica, sans-serif;
   margin: 0;
 }
+a {
+  color: steelblue;
+}
+
+.Message {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 20vh;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  border: 2px solid;
+  font-size: 14px;
+  max-width: 400px;
+  width: fit-content;
+  height: min-content;
+  z-index: 10;
+  box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.12);
+}
+
+.Message__text {
+  padding: 0 10px;
+  margin: 0 5px 0 10px;
+}
+
+.Message__success {
+  color: green;
+}
+
+.Message__error {
+  color: red;
+}
+
+
