@@ -3,10 +3,11 @@ import { Container, Typography, TextField, Button } from '@material-ui/core'
 import { db } from '../firebase/api'
 import { Message } from '../components/Message'
 import { useParams, useLocation } from 'react-router-dom'
+import { Product } from './Products'
 
 
 
-export const AddProduct = ({ setChangeData }) => {
+export const AddProduct = ({ setChangeData, products }) => {
   const [values, setValues] = useState({
     titleProduct: '',
     descriptionProduct: '',
@@ -70,6 +71,8 @@ export const AddProduct = ({ setChangeData }) => {
   useEffect(() => {
     if (location.pathname.includes('edit')) {
       setTitlePage('Edit product')
+      const product = products.filter(item => item.id === params.id)
+      setValues({...product[0]})
     }
   }, [])
 
@@ -151,10 +154,10 @@ export const AddProduct = ({ setChangeData }) => {
 
         />
         <Button variant="contained" color="primary" onClick={handleSubmit}>
-          Add product
+          {titlePage}
         </Button>
         <Button variant="contained" color="secondary" style={{ marginLeft: 10 }} onClick={clearValues}>
-          Reset
+          {location.pathname.includes('edit') ? 'Edit' : 'Reset'}
         </Button>
       </form>
     </Container>
