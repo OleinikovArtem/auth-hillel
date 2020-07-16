@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink, withRouter } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
-import { AppBar, Toolbar, Button } from '@material-ui/core'
+import { AppBar, Toolbar, Button, Avatar } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const Navbar = ({ locatin, history }) => {
+const Navbar = ({ locatin, history, auth }) => {
   const classes = useStyles()
 
   const loginPage = () => {
@@ -40,7 +40,7 @@ const Navbar = ({ locatin, history }) => {
             <NavLink className={classes.link} to='/add_product'>Add Product</NavLink>
             {/* <NavLink className={classes.link} to='/edit_product'>Edit Product</NavLink> */}
           </div>
-          <Button color="inherit" onClick={loginPage}>Login</Button>
+          {auth ? <Avatar /> : <Button color="inherit" onClick={loginPage}>Login</Button>}
         </Toolbar>
       </AppBar>
     </nav>

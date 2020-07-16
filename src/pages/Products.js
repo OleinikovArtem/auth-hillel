@@ -8,6 +8,7 @@ import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
+import { db } from '../firebase/api'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -27,15 +28,24 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     padding: '10px 20px'
   }
-  
+
 }))
 
-export const Product =  ({id, title, description, author}) => {
+export const Product = ({ id, titleProduct, timeSaleProduct, descriptionProduct, imgUrl, priceProduct, saleProduct, setChangeData}) => {
   const classes = useStyles()
   const history = useHistory()
 
   const goEdit = () => {
     history.push(`/edit_product/${id}`)
+  }
+
+  const deleteProduct = () => {
+    db.collection("products").doc(id).delete().then(function () {
+      console.log("Document successfully deleted!");
+      setChangeData('Deleted product' + id)
+    }).catch(function (error) {
+      console.error("Error removing document: ", error);
+    });
   }
 
   return (
@@ -45,21 +55,21 @@ export const Product =  ({id, title, description, author}) => {
         <CardActionArea>
           <CardMedia
             className={classes.media}
-            image="https://resize.hswstatic.com/w_907/gif/gecko-1.jpg"
-            title="Contemplative Reptile"
+            image={imgUrl}
+            title={titleProduct}
           />
           <CardContent>
-            <strong className={classes.title}>{title}</strong>
-            <p>{description}</p>
+            <strong className={classes.title}>{titleProduct}</strong>
+            <p>{descriptionProduct}</p>
           </CardContent>
         </CardActionArea>
         <div className={classes.priceBox}>
-          <div>90$</div>
-          <div>10.10.2020</div>
-          <div>100$ / 10%</div>
+          <div>{(priceProduct - (saleProduct * (priceProduct / 100))).toFixed(2)}$</div>
+          <div>{timeSaleProduct}</div>
+          <div>{priceProduct}$ / {saleProduct}%</div>
         </div>
         <CardActions>
-          <Button size="small" color="primary">
+          <Button size="small" color="primary" onClick={deleteProduct}>
             Delete
           </Button>
           <Button size="small" color="primary" onClick={goEdit}>
@@ -71,13 +81,13 @@ export const Product =  ({id, title, description, author}) => {
   )
 }
 
-export const Products = ({ products }) => {
+export const Products = ({ products, setChangeData }) => {
   const classes = useStyles()
-
+  console.log(products)
   return (
     <div className={classes.container}>
       <Grid container spacing={3}>
-        {products?.map((item) => <Product key={item.id} {...item} />)}
+        {products?.map((item) => <Product key={item.id} {...item} setChangeData={setChangeData} />)}
       </Grid>
     </div>
   )

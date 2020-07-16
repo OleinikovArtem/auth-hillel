@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { withRouter, NavLink } from 'react-router-dom'
+import { withRouter, NavLink, useHistory } from 'react-router-dom'
 import Container from '@material-ui/core/Container'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
@@ -38,16 +38,14 @@ const useStyles = makeStyles((theme) => ({
 
 const RegistrationForm = () => {
   const classes = useStyles()
-  const [isDone, setIsDone] = useState(true)
   const [values, setValues] = useState({
     email: '',
     password: '',
     againPassword: '',
   })
-  const [showMessage, setShowMessage] = useState(false)
-  const [succesMessage, setSuccesMessage] = useState({ isShow: false, text: null })
-  const [errorMessage, setErrorMessage] = useState({ isShow: false, text: null })
+  const [message, setMessage] = useState(null)
 
+  const closeMessage = () => setMessage(null)
 
   const changeValues = ({ target: { name, value } }) => {
     const updateValues = {
@@ -60,11 +58,10 @@ const RegistrationForm = () => {
   const registration = async ({ email, password }) => {
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then(r => {
-        setSuccesMessage({ isShow: true, text: 'Login is Doned!' })
-        console.log(r)
+        setMessage({ type: 'success', text: 'Login is Doned!' })
       })
       .catch(error => {
-        setErrorMessage({ isShow: true, text: error.message })
+        setMessage({ type: 'error', text: error.message })
       });
   }
 
@@ -74,15 +71,13 @@ const RegistrationForm = () => {
     if (password === againPassword) {
       registration(values)
     } else {
-      setShowMessage(true)
+      setMessage({ type: 'error', text: 'Password mismatch'})
     }
   }
 
   return (
     <>
-      {showMessage && <Message type='error' text='Password mismatch' onClose={() => setShowMessage(false)} />}
-      {errorMessage.isShow && <Message type='error' text={errorMessage?.text} onClose={() => setErrorMessage({ isShow: false })} />}
-      {succesMessage.isShow && <Message type='success' text={succesMessage?.text} onClose={() => setSuccesMessage({ isShow: false })} />}
+      {message && <Message type={message.type} text={message.text} onClose={() => closeMessage(false)} />}
       <form className={classes.form} noValidate onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -155,6 +150,7 @@ const LoginForm = ({ setAuth = () => { } }) => {
   const [errorMessage, setErrorMessage] = useState({ isShow: false, text: null })
   const [succesMessage, setSuccesMessage] = useState({ isShow: false, text: null })
 
+  const history = useHistory()
   const changeValues = ({ target: { name, value } }) => {
     const updateValues = {
       ...values,
@@ -168,7 +164,7 @@ const LoginForm = ({ setAuth = () => { } }) => {
       .then(r => {
         setAuth(true)
         setSuccesMessage({ isShow: true, text: 'You are logged in' })
-        console.log('true')
+        history.push('/products')
       })
       .catch(error => {
         setErrorMessage({ isShow: true, text: error.message })
