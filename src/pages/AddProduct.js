@@ -157,7 +157,7 @@ export const AddProduct = ({ setChangeData, products }) => {
           {titlePage}
         </Button>
         <Button variant="contained" color="secondary" style={{ marginLeft: 10 }} onClick={clearValues}>
-          {location.pathname.includes('edit') ? 'Edit' : 'Reset'}
+          Reset
         </Button>
       </form>
     </Container>
